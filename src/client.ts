@@ -1,5 +1,15 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { config } from './config';
+import {
+  validateInput,
+  CreateTaskSchema,
+  CreateEpicSchema,
+  UpdateTaskStatusSchema,
+  CreateCommentSchema,
+  UploadAttachmentSchema,
+  TaskFiltersSchema,
+  EpicFiltersSchema,
+} from './utils/validation';
 import type {
   Project,
   Task,
@@ -56,54 +66,66 @@ export class SadminApiClient {
 
   // Tasks
   async getTasks(filters?: TaskFilters): Promise<Task[]> {
+    const validatedFilters = filters ? validateInput(TaskFiltersSchema, filters) : undefined;
     const params = new URLSearchParams();
-    if (filters?.projectId) params.append('projectId', filters.projectId);
-    if (filters?.status) params.append('status', filters.status);
-    if (filters?.type) params.append('type', filters.type);
+    if (validatedFilters?.projectId) params.append('projectId', validatedFilters.projectId);
+    if (validatedFilters?.status) params.append('status', validatedFilters.status);
+    if (validatedFilters?.type) params.append('type', validatedFilters.type);
     
     const { data } = await this.client.get<Task[]>(`/tasks?${params.toString()}`);
     return data;
   }
 
   async getTask(id: string): Promise<Task> {
+    if (!id) throw new Error('Task ID is required');
     const { data } = await this.client.get<Task>(`/task/${id}`);
     return data;
   }
 
   async createTask(request: CreateTaskRequest): Promise<Task> {
-    const { data } = await this.client.post<Task>('/tasks', request);
+    const validatedRequest = validateInput(CreateTaskSchema, request);
+    const { data } = await this.client.post<Task>('/tasks', validatedRequest);
     return data;
   }
 
   async updateTaskStatus(id: string, request: UpdateTaskStatusRequest): Promise<Task> {
-    const { data } = await this.client.patch<Task>(`/task/${id}/status`, request);
+    if (!id) throw new Error('Task ID is required');
+    const validatedRequest = validateInput(UpdateTaskStatusSchema, request);
+    const { data } = await this.client.patch<Task>(`/task/${id}/status`, validatedRequest);
     return data;
   }
 
   // Epics
   async getEpics(filters?: EpicFilters): Promise<Task[]> {
+    const validatedFilters = filters ? validateInput(EpicFiltersSchema, filters) : undefined;
     const params = new URLSearchParams();
-    if (filters?.projectId) params.append('projectId', filters.projectId);
-    if (filters?.status) params.append('status', filters.status);
+    if (validatedFilters?.projectId) params.append('projectId', validatedFilters.projectId);
+    if (validatedFilters?.status) params.append('status', validatedFilters.status);
     
     const { data } = await this.client.get<Task[]>(`/epics?${params.toString()}`);
     return data;
   }
 
   async createEpic(request: CreateEpicRequest): Promise<Task> {
-    const { data } = await this.client.post<Task>('/epics', request);
+    const validatedRequest = validateInput(CreateEpicSchema, request);
+    const { data } = await this.client.post<Task>('/epics', {
+      ...validatedRequest,
+      type: 'EPIC', // Ensure type is always EPIC
+    });
     return data;
   }
 
   // Comments
   async createComment(request: CreateCommentRequest): Promise<Comment> {
-    const { data } = await this.client.post<Comment>('/comments', request);
+    const validatedRequest = validateInput(CreateCommentSchema, request);
+    const { data } = await this.client.post<Comment>('/comments', validatedRequest);
     return data;
   }
 
   // Attachments
   async uploadAttachment(request: UploadAttachmentRequest): Promise<Attachment> {
-    const { data } = await this.client.post<Attachment>('/attachments', request);
+    const validatedRequest = validateInput(UploadAttachmentSchema, request);
+    const { data } = await this.client.post<Attachment>('/attachments', validatedRequest);
     return data;
   }
 

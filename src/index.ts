@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 // Health check endpoint
-app.get('/health', async (req, res) => {
+app.get('/health', async (_req, res) => {
   try {
     const health = await sadminClient.healthCheck();
     res.json({
@@ -79,10 +79,11 @@ app.post('/functions/:functionName', async (req, res) => {
         break;
 
       default:
-        return res.status(404).json({
+        res.status(404).json({
           success: false,
           error: `Function '${functionName}' not found`,
         });
+        return;
     }
 
     res.json({
@@ -98,7 +99,7 @@ app.post('/functions/:functionName', async (req, res) => {
 });
 
 // List available functions
-app.get('/functions', (req, res) => {
+app.get('/functions', (_req, res) => {
   res.json({
     functions: [
       {
