@@ -71,8 +71,33 @@ npm run dev
 # Run tests
 npm test
 
+# Run test coverage
+npm run test:coverage
+
 # Build for production
 npm run build
+
+# Test the server
+./scripts/test-server.sh
+```
+
+## Project Structure
+
+```
+sadmin2025-mcp-server/
+├── src/
+│   ├── index.ts          # Express server and MCP endpoints
+│   ├── client.ts         # SADMIN API client
+│   ├── config.ts         # Configuration management
+│   ├── types/            # TypeScript type definitions
+│   └── utils/            # Utility functions
+│       └── validation.ts # Zod validation schemas
+├── tests/                # Unit tests
+├── examples/             # Usage examples
+├── docs/                 # Documentation
+│   └── API.md           # API reference
+└── scripts/              # Utility scripts
+    └── test-server.sh   # Server testing script
 ```
 
 ## API Functions
