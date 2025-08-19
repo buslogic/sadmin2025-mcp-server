@@ -226,6 +226,73 @@ const AVAILABLE_TOOLS = [
       required: ['attachmentId'],
     },
   },
+  {
+    name: 'sadmin_updateTask',
+    description: 'Update task details',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Task ID' },
+        title: { type: 'string', description: 'Task title' },
+        description: { type: 'string', description: 'Task description' },
+        type: {
+          type: 'string',
+          enum: ['TASK', 'BUG', 'FEATURE', 'EPIC'],
+          description: 'Task type'
+        },
+        status: {
+          type: 'string',
+          enum: ['BACKLOG', 'TODO', 'IN_PROGRESS', 'IN_REVIEW', 'DONE', 'CANCELLED'],
+          description: 'Task status'
+        },
+        priority: {
+          type: 'string',
+          enum: ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'],
+          description: 'Task priority'
+        },
+        parentId: { type: 'string', description: 'Parent task/epic ID' },
+        assignedTo: { type: 'number', description: 'User ID to assign to' },
+        estimatedHours: { type: 'number', description: 'Estimated hours' },
+        storyPoints: { type: 'number', description: 'Story points' },
+        dueDate: { type: 'string', description: 'Due date (ISO string)' },
+      },
+      required: ['id'],
+    },
+  },
+  {
+    name: 'sadmin_updateEpic',
+    description: 'Update epic details',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Epic ID' },
+        title: { type: 'string', description: 'Epic title' },
+        description: { type: 'string', description: 'Epic description' },
+        priority: {
+          type: 'string',
+          enum: ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'],
+          description: 'Epic priority'
+        },
+        epicStatus: {
+          type: 'string',
+          enum: ['BACKLOG', 'TODO', 'IN_PROGRESS', 'IN_REVIEW', 'DONE', 'CANCELLED'],
+          description: 'Epic status'
+        },
+        epicHealth: {
+          type: 'string',
+          enum: ['ON_TRACK', 'AT_RISK', 'BLOCKED'],
+          description: 'Epic health status'
+        },
+        epicStartDate: { type: 'string', description: 'Epic start date (ISO string)' },
+        epicEndDate: { type: 'string', description: 'Epic end date (ISO string)' },
+        epicProgress: { type: 'number', description: 'Epic progress percentage (0-100)' },
+        estimatedHours: { type: 'number', description: 'Estimated hours' },
+        storyPoints: { type: 'number', description: 'Story points' },
+        assignedTo: { type: 'number', description: 'User ID to assign to' },
+      },
+      required: ['id'],
+    },
+  },
 ];
 
 async function main() {

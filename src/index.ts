@@ -90,6 +90,17 @@ app.post('/functions/:functionName', async (req, res) => {
         result = await sadminClient.downloadAttachment(params.attachmentId);
         break;
 
+      // Update functions
+      case 'sadmin_updateTask':
+        const { id: taskId, ...taskUpdateData } = params;
+        result = await sadminClient.updateTask(taskId, taskUpdateData);
+        break;
+
+      case 'sadmin_updateEpic':
+        const { id: epicId, ...epicUpdateData } = params;
+        result = await sadminClient.updateEpic(epicId, epicUpdateData);
+        break;
+
       default:
         res.status(404).json({
           success: false,
@@ -218,6 +229,41 @@ app.get('/functions', (_req, res) => {
         description: 'Download attachment by ID',
         parameters: {
           attachmentId: { type: 'string', required: true },
+        },
+      },
+      {
+        name: 'sadmin_updateTask',
+        description: 'Update task details',
+        parameters: {
+          id: { type: 'string', required: true },
+          title: { type: 'string' },
+          description: { type: 'string' },
+          type: { type: 'string' },
+          status: { type: 'string' },
+          priority: { type: 'string' },
+          parentId: { type: 'string' },
+          assignedTo: { type: 'number' },
+          estimatedHours: { type: 'number' },
+          storyPoints: { type: 'number' },
+          dueDate: { type: 'string' },
+        },
+      },
+      {
+        name: 'sadmin_updateEpic',
+        description: 'Update epic details',
+        parameters: {
+          id: { type: 'string', required: true },
+          title: { type: 'string' },
+          description: { type: 'string' },
+          priority: { type: 'string' },
+          epicStatus: { type: 'string' },
+          epicHealth: { type: 'string' },
+          epicStartDate: { type: 'string' },
+          epicEndDate: { type: 'string' },
+          epicProgress: { type: 'number' },
+          estimatedHours: { type: 'number' },
+          storyPoints: { type: 'number' },
+          assignedTo: { type: 'number' },
         },
       },
     ],

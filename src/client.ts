@@ -95,6 +95,18 @@ export class SadminApiClient {
     return data;
   }
 
+  async updateTask(id: string, request: any): Promise<Task> {
+    if (!id) throw new Error('Task ID is required');
+    const { data } = await this.client.patch<Task>(`/tasks/${id}`, request);
+    return data;
+  }
+
+  async updateEpic(id: string, request: any): Promise<Task> {
+    if (!id) throw new Error('Epic ID is required');
+    const { data } = await this.client.patch<Task>(`/epics/${id}`, request);
+    return data;
+  }
+
   // Epics
   async getEpics(filters?: EpicFilters): Promise<Task[]> {
     const validatedFilters = filters ? validateInput(EpicFiltersSchema, filters) : undefined;
