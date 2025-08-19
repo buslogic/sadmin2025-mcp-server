@@ -4,6 +4,7 @@ import { z } from 'zod';
 dotenv.config();
 
 const ConfigSchema = z.object({
+  environment: z.enum(['local', 'production']).default('local'),
   sadminApiUrl: z.string().url().default('http://localhost:3006/api/claude'),
   sadminApiKey: z.string().min(1),
   sadminProjectId: z.string().uuid().optional(),
@@ -16,6 +17,7 @@ export type Config = z.infer<typeof ConfigSchema>;
 export function loadConfig(): Config {
   try {
     return ConfigSchema.parse({
+      environment: process.env.ENVIRONMENT || 'local',
       sadminApiUrl: process.env.SADMIN_API_URL,
       sadminApiKey: process.env.SADMIN_API_KEY,
       sadminProjectId: process.env.SADMIN_PROJECT_ID,

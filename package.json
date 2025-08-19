@@ -12,11 +12,17 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/index.ts",
+    "dev:local": "cp .env.local .env && tsx watch src/index.ts",
+    "dev:prod": "cp .env.production .env && tsx watch src/index.ts",
     "start": "node dist/index.js",
+    "start:local": "cp .env.local .env && node dist/index.js",
+    "start:prod": "cp .env.production .env && node dist/index.js",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "env:local": "cp .env.local .env && echo 'Switched to LOCAL environment'",
+    "env:prod": "cp .env.production .env && echo 'Switched to PRODUCTION environment'"
   },
   "repository": {
     "type": "git",

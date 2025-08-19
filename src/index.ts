@@ -230,6 +230,7 @@ const PORT = config.mcpServerPort || 3010;
 async function main() {
   try {
     console.log('🚀 Starting SADMIN 2025 MCP Server...');
+    console.log(`🌍 Environment: ${config.environment.toUpperCase()}`);
     console.log(`📍 API URL: ${config.sadminApiUrl}`);
     console.log(`🔑 API Key: ${config.sadminApiKey.substring(0, 10)}...`);
     
