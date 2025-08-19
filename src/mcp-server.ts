@@ -293,6 +293,144 @@ const AVAILABLE_TOOLS = [
       required: ['id'],
     },
   },
+  // Wiki tools
+  {
+    name: 'sadmin_getWikiSpaces',
+    description: 'Get Wiki spaces by project',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        projectId: { type: 'string', description: 'Project ID' },
+      },
+      required: ['projectId'],
+    },
+  },
+  {
+    name: 'sadmin_getWikiPages',
+    description: 'Get Wiki pages by space',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        spaceId: { type: 'string', description: 'Wiki space ID' },
+        categoryId: { type: 'string', description: 'Filter by category ID' },
+      },
+      required: ['spaceId'],
+    },
+  },
+  {
+    name: 'sadmin_getWikiPage',
+    description: 'Get Wiki page by ID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Wiki page ID' },
+      },
+      required: ['id'],
+    },
+  },
+  {
+    name: 'sadmin_createWikiSpace',
+    description: 'Create new Wiki space',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        projectId: { type: 'string', description: 'Project ID' },
+        type: { type: 'string', description: 'Wiki space type', enum: ['PROJECT_DOCS', 'TECHNICAL', 'USER_MANUAL', 'API_DOCS', 'KNOWLEDGE_BASE'] },
+        name: { type: 'string', description: 'Wiki space name' },
+        slug: { type: 'string', description: 'URL slug' },
+        description: { type: 'string', description: 'Description' },
+        icon: { type: 'string', description: 'Icon (emoji or URL)' },
+        isPublic: { type: 'boolean', description: 'Is public', default: false },
+      },
+      required: ['projectId', 'name', 'slug'],
+    },
+  },
+  {
+    name: 'sadmin_createWikiPage',
+    description: 'Create new Wiki page',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        spaceId: { type: 'string', description: 'Wiki space ID' },
+        categoryId: { type: 'string', description: 'Category ID' },
+        parentId: { type: 'string', description: 'Parent page ID' },
+        slug: { type: 'string', description: 'URL slug' },
+        title: { type: 'string', description: 'Page title' },
+        content: { type: 'string', description: 'Markdown content' },
+        summary: { type: 'string', description: 'Brief summary' },
+        status: { type: 'string', description: 'Page status', enum: ['DRAFT', 'PUBLISHED', 'ARCHIVED'] },
+        visibility: { type: 'string', description: 'Visibility', enum: ['PUBLIC', 'PRIVATE', 'TEAM'] },
+        keywords: { type: 'array', items: { type: 'string' }, description: 'Keywords for search' },
+      },
+      required: ['spaceId', 'slug', 'title', 'content'],
+    },
+  },
+  {
+    name: 'sadmin_updateWikiPage',
+    description: 'Update Wiki page',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Wiki page ID' },
+        title: { type: 'string', description: 'Page title' },
+        content: { type: 'string', description: 'Markdown content' },
+        summary: { type: 'string', description: 'Brief summary' },
+        status: { type: 'string', description: 'Page status', enum: ['DRAFT', 'PUBLISHED', 'ARCHIVED'] },
+        visibility: { type: 'string', description: 'Visibility', enum: ['PUBLIC', 'PRIVATE', 'TEAM'] },
+        versionSummary: { type: 'string', description: 'Version change summary' },
+      },
+      required: ['id'],
+    },
+  },
+  {
+    name: 'sadmin_deleteWikiPage',
+    description: 'Soft delete Wiki page',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Wiki page ID' },
+      },
+      required: ['id'],
+    },
+  },
+  {
+    name: 'sadmin_uploadWikiMedia',
+    description: 'Upload media file to Wiki page',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        pageId: { type: 'string', description: 'Wiki page ID' },
+        fileName: { type: 'string', description: 'File name' },
+        base64Content: { type: 'string', description: 'Base64 encoded content with data URL' },
+        description: { type: 'string', description: 'Media description' },
+        altText: { type: 'string', description: 'Alt text for images' },
+      },
+      required: ['pageId', 'fileName', 'base64Content'],
+    },
+  },
+  {
+    name: 'sadmin_getWikiMedia',
+    description: 'Get Wiki media file',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Media attachment ID' },
+      },
+      required: ['id'],
+    },
+  },
+  {
+    name: 'sadmin_searchWiki',
+    description: 'Search Wiki pages',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        q: { type: 'string', description: 'Search query' },
+        spaceId: { type: 'string', description: 'Limit to specific space' },
+      },
+      required: ['q'],
+    },
+  },
 ];
 
 async function main() {

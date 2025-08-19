@@ -169,6 +169,70 @@ export class SadminApiClient {
     return data;
   }
 
+  // Wiki methods
+  async getWikiSpaces(projectId: string): Promise<any> {
+    if (!projectId) throw new Error('Project ID is required');
+    const { data } = await this.client.get('/wiki/spaces', {
+      params: { projectId },
+    });
+    return data;
+  }
+
+  async getWikiPages(spaceId: string, categoryId?: string): Promise<any> {
+    if (!spaceId) throw new Error('Space ID is required');
+    const { data } = await this.client.get('/wiki/pages', {
+      params: { spaceId, categoryId },
+    });
+    return data;
+  }
+
+  async getWikiPage(id: string): Promise<any> {
+    if (!id) throw new Error('Wiki page ID is required');
+    const { data } = await this.client.get(`/wiki/pages/${id}`);
+    return data;
+  }
+
+  async createWikiSpace(request: any): Promise<any> {
+    const { data } = await this.client.post('/wiki/spaces', request);
+    return data;
+  }
+
+  async createWikiPage(request: any): Promise<any> {
+    const { data } = await this.client.post('/wiki/pages', request);
+    return data;
+  }
+
+  async updateWikiPage(id: string, request: any): Promise<any> {
+    if (!id) throw new Error('Wiki page ID is required');
+    const { data } = await this.client.put(`/wiki/pages/${id}`, request);
+    return data;
+  }
+
+  async deleteWikiPage(id: string): Promise<any> {
+    if (!id) throw new Error('Wiki page ID is required');
+    const { data } = await this.client.delete(`/wiki/pages/${id}`);
+    return data;
+  }
+
+  async uploadWikiMedia(request: any): Promise<any> {
+    const { data } = await this.client.post('/wiki/media/upload', request);
+    return data;
+  }
+
+  async getWikiMedia(id: string): Promise<any> {
+    if (!id) throw new Error('Media ID is required');
+    const { data } = await this.client.get(`/wiki/media/${id}`);
+    return data;
+  }
+
+  async searchWikiPages(query: string, spaceId?: string): Promise<any> {
+    if (!query) throw new Error('Search query is required');
+    const { data } = await this.client.get('/wiki/search', {
+      params: { q: query, spaceId },
+    });
+    return data;
+  }
+
   // Health check
   async healthCheck(): Promise<{ status: string; timestamp: string; version: string }> {
     const { data } = await this.client.get('/health');

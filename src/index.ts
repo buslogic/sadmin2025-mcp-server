@@ -101,6 +101,48 @@ app.post('/functions/:functionName', async (req, res) => {
         result = await sadminClient.updateEpic(epicId, epicUpdateData);
         break;
 
+      // Wiki handlers
+      case 'sadmin_getWikiSpaces':
+        result = await sadminClient.getWikiSpaces(params.projectId);
+        break;
+
+      case 'sadmin_getWikiPages':
+        result = await sadminClient.getWikiPages(params.spaceId, params.categoryId);
+        break;
+
+      case 'sadmin_getWikiPage':
+        result = await sadminClient.getWikiPage(params.id);
+        break;
+
+      case 'sadmin_createWikiSpace':
+        result = await sadminClient.createWikiSpace(params);
+        break;
+
+      case 'sadmin_createWikiPage':
+        result = await sadminClient.createWikiPage(params);
+        break;
+
+      case 'sadmin_updateWikiPage':
+        const { id: wikiPageId, ...wikiPageData } = params;
+        result = await sadminClient.updateWikiPage(wikiPageId, wikiPageData);
+        break;
+
+      case 'sadmin_deleteWikiPage':
+        result = await sadminClient.deleteWikiPage(params.id);
+        break;
+
+      case 'sadmin_uploadWikiMedia':
+        result = await sadminClient.uploadWikiMedia(params);
+        break;
+
+      case 'sadmin_getWikiMedia':
+        result = await sadminClient.getWikiMedia(params.id);
+        break;
+
+      case 'sadmin_searchWiki':
+        result = await sadminClient.searchWikiPages(params.q, params.spaceId);
+        break;
+
       default:
         res.status(404).json({
           success: false,
