@@ -116,6 +116,14 @@ export class SadminApiClient {
   }
 
   // Comments
+  async getComments(taskId: string): Promise<Comment[]> {
+    if (!taskId || !taskId.trim()) {
+      throw new Error('Task ID is required');
+    }
+    const { data } = await this.client.get<Comment[]>(`/comments?taskId=${encodeURIComponent(taskId)}`);
+    return data;
+  }
+
   async createComment(request: CreateCommentRequest): Promise<Comment> {
     const validatedRequest = validateInput(CreateCommentSchema, request);
     const { data } = await this.client.post<Comment>('/comments', validatedRequest);
@@ -123,9 +131,29 @@ export class SadminApiClient {
   }
 
   // Attachments
+  async getAttachments(entityType: 'task' | 'project', entityId: string): Promise<Attachment[]> {
+    if (!entityId || !entityId.trim()) {
+      throw new Error('Entity ID is required');
+    }
+    const params = new URLSearchParams({
+      entityType,
+      entityId
+    });
+    const { data } = await this.client.get<Attachment[]>(`/attachments?${params.toString()}`);
+    return data;
+  }
+
   async uploadAttachment(request: UploadAttachmentRequest): Promise<Attachment> {
     const validatedRequest = validateInput(UploadAttachmentSchema, request);
     const { data } = await this.client.post<Attachment>('/attachments', validatedRequest);
+    return data;
+  }
+
+  async downloadAttachment(attachmentId: string): Promise<{ fileName: string; base64Content: string }> {
+    if (!attachmentId || !attachmentId.trim()) {
+      throw new Error('Attachment ID is required');
+    }
+    const { data } = await this.client.get<{ fileName: string; base64Content: string }>(`/attachments/${attachmentId}/download`);
     return data;
   }
 

@@ -69,13 +69,25 @@ app.post('/functions/:functionName', async (req, res) => {
         break;
 
       // Comments
+      case 'sadmin_getComments':
+        result = await sadminClient.getComments(params.taskId);
+        break;
+
       case 'sadmin_addComment':
         result = await sadminClient.createComment(params);
         break;
 
       // Attachments
+      case 'sadmin_getAttachments':
+        result = await sadminClient.getAttachments(params.entityType, params.entityId);
+        break;
+
       case 'sadmin_uploadAttachment':
         result = await sadminClient.uploadAttachment(params);
+        break;
+
+      case 'sadmin_downloadAttachment':
+        result = await sadminClient.downloadAttachment(params.attachmentId);
         break;
 
       default:
@@ -168,11 +180,26 @@ app.get('/functions', (_req, res) => {
         },
       },
       {
+        name: 'sadmin_getComments',
+        description: 'Get comments for a task',
+        parameters: {
+          taskId: { type: 'string', required: true },
+        },
+      },
+      {
         name: 'sadmin_addComment',
         description: 'Add a comment to a task',
         parameters: {
           taskId: { type: 'string', required: true },
           content: { type: 'string', required: true },
+        },
+      },
+      {
+        name: 'sadmin_getAttachments',
+        description: 'Get attachments for an entity',
+        parameters: {
+          entityType: { type: 'string', required: true },
+          entityId: { type: 'string', required: true },
         },
       },
       {
@@ -184,6 +211,13 @@ app.get('/functions', (_req, res) => {
           fileName: { type: 'string', required: true },
           base64Content: { type: 'string', required: true },
           description: { type: 'string' },
+        },
+      },
+      {
+        name: 'sadmin_downloadAttachment',
+        description: 'Download attachment by ID',
+        parameters: {
+          attachmentId: { type: 'string', required: true },
         },
       },
     ],

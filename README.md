@@ -56,8 +56,11 @@ Once the MCP server is running, Claude Code will automatically detect and use th
 - `sadmin_updateTaskStatus` - Update task status
 - `sadmin_getEpics` - Get list of epics
 - `sadmin_createEpic` - Create new epic
+- `sadmin_getComments` - Get comments for a task
 - `sadmin_addComment` - Add comment to task
+- `sadmin_getAttachments` - Get attachments for an entity
 - `sadmin_uploadAttachment` - Upload file attachment
+- `sadmin_downloadAttachment` - Download attachment by ID
 
 ## Development
 

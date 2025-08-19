@@ -217,6 +217,34 @@ POST /functions/sadmin_createEpic
 
 ### Comments
 
+#### Get Comments
+```http
+POST /functions/sadmin_getComments
+```
+
+**Body:**
+```json
+{
+  "taskId": "task-uuid"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "comment-uuid",
+      "taskId": "task-uuid",
+      "content": "Comment text",
+      "createdAt": "2025-08-19T10:00:00Z",
+      "updatedAt": "2025-08-19T10:00:00Z"
+    }
+  ]
+}
+```
+
 #### Add Comment
 ```http
 POST /functions/sadmin_addComment
@@ -235,6 +263,38 @@ POST /functions/sadmin_addComment
 - `content` (1-5000 characters)
 
 ### Attachments
+
+#### Get Attachments
+```http
+POST /functions/sadmin_getAttachments
+```
+
+**Body:**
+```json
+{
+  "entityType": "task",
+  "entityId": "entity-uuid"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "attachment-uuid",
+      "entityType": "task",
+      "entityId": "entity-uuid",
+      "fileName": "document.pdf",
+      "fileSize": 102400,
+      "mimeType": "application/pdf",
+      "description": "Document description",
+      "createdAt": "2025-08-19T10:00:00Z"
+    }
+  ]
+}
+```
 
 #### Upload Attachment
 ```http
@@ -257,6 +317,29 @@ POST /functions/sadmin_uploadAttachment
 - `entityId`
 - `fileName`
 - `base64Content`
+
+#### Download Attachment
+```http
+POST /functions/sadmin_downloadAttachment
+```
+
+**Body:**
+```json
+{
+  "attachmentId": "attachment-uuid"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "fileName": "document.pdf",
+    "base64Content": "data:application/pdf;base64,JVBERi0xLj..."
+  }
+}
+```
 
 ## Error Handling
 
