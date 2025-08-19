@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "sadmin2025": {
+      "command": "node",
+      "args": ["/home/buslogic/sadmin2025-mcp-server/dist/index.js"],
+      "env": {
+        "SADMIN_API_URL": "https://sadmin2025api.ticketing.rs/api/claude",
+        "SADMIN_API_KEY": "claude_DoGQQYPIAzk2uZMwQ24o4cOMMyLsFw72",
+        "SADMIN_PROJECT_ID": "be92301b-8118-4651-a252-a996339ead2e",
+        "MCP_SERVER_PORT": "3010"
+      }
+    }
+  }
+}
