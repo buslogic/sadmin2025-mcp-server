@@ -153,6 +153,11 @@ const AVAILABLE_TOOLS = [
           enum: ['ON_TRACK', 'AT_RISK', 'BLOCKED'],
           description: 'Epic health status'
         },
+        linkedTaskIds: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Array of task IDs to link with this epic'
+        },
       },
       required: ['projectId', 'title'],
     },
@@ -457,6 +462,16 @@ async function main() {
   // Handler za pozivanje alata
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args } = request.params;
+
+    // Debug logging za array parametre
+    if (name === 'sadmin_createEpic' && args) {
+      console.error('[MCP DEBUG] CreateEpic args received:', JSON.stringify(args, null, 2));
+      if ('linkedTaskIds' in args) {
+        console.error('[MCP DEBUG] linkedTaskIds type:', typeof args.linkedTaskIds);
+        console.error('[MCP DEBUG] linkedTaskIds is array?:', Array.isArray(args.linkedTaskIds));
+        console.error('[MCP DEBUG] linkedTaskIds value:', args.linkedTaskIds);
+      }
+    }
 
     try {
       // Pozovi naš REST API server
