@@ -40,17 +40,6 @@ export class SadminApiClient {
     // Add response interceptor for error handling
     this.client.interceptors.response.use(
       (response) => {
-        // Debug log for all responses
-        if (response.config.url?.includes('/epics')) {
-          console.error('[AXIOS DEBUG] Epic endpoint response:', {
-            url: response.config.url,
-            method: response.config.method,
-            status: response.status,
-            hasData: !!response.data,
-            dataType: typeof response.data,
-            dataKeys: response.data ? Object.keys(response.data).slice(0, 5) : [],
-          });
-        }
         return response;
       },
       (error: AxiosError) => {
@@ -97,9 +86,7 @@ export class SadminApiClient {
 
   async createTask(request: CreateTaskRequest): Promise<Task> {
     const validatedRequest = validateInput(CreateTaskSchema, request);
-    console.error('[CLIENT DEBUG] Sending request:', JSON.stringify(validatedRequest, null, 2));
     const response = await this.client.post<Task>('/tasks', validatedRequest);
-    console.error('[CLIENT DEBUG] Got response:', JSON.stringify(response.data, null, 2));
     return response.data;
   }
 
@@ -135,13 +122,8 @@ export class SadminApiClient {
 
   async createEpic(request: CreateEpicRequest): Promise<Task> {
     const validatedRequest = validateInput(CreateEpicSchema, request);
-    console.error('[CLIENT DEBUG] Creating epic with request:', JSON.stringify(validatedRequest, null, 2));
-    console.error('[CLIENT DEBUG] Has linkedTaskIds?:', !!validatedRequest.linkedTaskIds);
-    console.error('[CLIENT DEBUG] LinkedTaskIds:', validatedRequest.linkedTaskIds);
     // IMPORTANT: Do NOT send 'type' field - backend returns empty response when type is included
     const response = await this.client.post<Task>('/epics', validatedRequest);
-    console.error('[CLIENT DEBUG] Epic response status:', response.status);
-    console.error('[CLIENT DEBUG] Epic response data:', JSON.stringify(response.data, null, 2));
     return response.data;
   }
 

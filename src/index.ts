@@ -52,9 +52,7 @@ app.post('/functions/:functionName', async (req, res) => {
         break;
 
       case 'sadmin_createTask':
-        console.error('[INDEX DEBUG] Creating task with params:', JSON.stringify(params, null, 2));
         result = await sadminClient.createTask(params);
-        console.error('[INDEX DEBUG] Task creation result:', JSON.stringify(result, null, 2));
         break;
 
       case 'sadmin_updateTaskStatus':
@@ -67,20 +65,16 @@ app.post('/functions/:functionName', async (req, res) => {
         break;
 
       case 'sadmin_createEpic':
-        console.error('[INDEX DEBUG] Creating epic with params:', JSON.stringify(params, null, 2));
-        
         // Handle linkedTaskIds if it's sent as a JSON string (MCP protocol limitation)
         if (params.linkedTaskIds && typeof params.linkedTaskIds === 'string') {
           try {
             params.linkedTaskIds = JSON.parse(params.linkedTaskIds);
-            console.error('[INDEX DEBUG] Parsed linkedTaskIds from string to array:', params.linkedTaskIds);
           } catch (e) {
-            console.error('[INDEX DEBUG] Failed to parse linkedTaskIds as JSON, keeping as is');
+            // Keep as is if parsing fails
           }
         }
         
         result = await sadminClient.createEpic(params);
-        console.error('[INDEX DEBUG] Epic creation result:', JSON.stringify(result, null, 2));
         break;
 
       // Comments
@@ -138,9 +132,8 @@ app.post('/functions/:functionName', async (req, res) => {
         if (params.keywords && typeof params.keywords === 'string') {
           try {
             params.keywords = JSON.parse(params.keywords);
-            console.error('[INDEX DEBUG] Parsed keywords from string to array');
           } catch (e) {
-            console.error('[INDEX DEBUG] Failed to parse keywords as JSON');
+            // Keep as is if parsing fails
           }
         }
         result = await sadminClient.createWikiPage(params);

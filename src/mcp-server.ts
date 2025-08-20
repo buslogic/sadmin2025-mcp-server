@@ -463,23 +463,9 @@ async function main() {
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args } = request.params;
 
-    // Debug logging za array parametre
-    if (name === 'sadmin_createEpic' && args) {
-      console.error('[MCP DEBUG] CreateEpic args received:', JSON.stringify(args, null, 2));
-      if ('linkedTaskIds' in args) {
-        console.error('[MCP DEBUG] linkedTaskIds type:', typeof args.linkedTaskIds);
-        console.error('[MCP DEBUG] linkedTaskIds is array?:', Array.isArray(args.linkedTaskIds));
-        console.error('[MCP DEBUG] linkedTaskIds value:', args.linkedTaskIds);
-      }
-    }
-
     try {
       // Pozovi naš REST API server
       const response = await api.post(`/functions/${name}`, args || {});
-      
-      // Debug logging
-      console.error(`[MCP DEBUG] Tool: ${name}`);
-      console.error('[MCP DEBUG] Response:', JSON.stringify(response.data, null, 2));
       
       // Proveri da li postoji data property
       const resultData = response.data?.data || response.data || {};
