@@ -462,11 +462,18 @@ async function main() {
       // Pozovi naš REST API server
       const response = await api.post(`/functions/${name}`, args || {});
       
+      // Debug logging
+      console.error(`[MCP DEBUG] Tool: ${name}`);
+      console.error('[MCP DEBUG] Response:', JSON.stringify(response.data, null, 2));
+      
+      // Proveri da li postoji data property
+      const resultData = response.data?.data || response.data || {};
+      
       return {
         content: [
           {
             type: 'text',
-            text: JSON.stringify(response.data.data, null, 2),
+            text: JSON.stringify(resultData, null, 2),
           },
         ],
       };

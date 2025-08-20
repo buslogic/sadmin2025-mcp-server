@@ -106,6 +106,7 @@ export interface CreateEpicRequest {
   epicStartDate?: string;
   epicEndDate?: string;
   epicHealth?: 'ON_TRACK' | 'AT_RISK' | 'BLOCKED';
+  linkedTaskIds?: string[]; // Array of task IDs to link with this epic
 }
 
 export interface UpdateTaskStatusRequest {

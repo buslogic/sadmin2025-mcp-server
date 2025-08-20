@@ -52,7 +52,9 @@ app.post('/functions/:functionName', async (req, res) => {
         break;
 
       case 'sadmin_createTask':
+        console.error('[INDEX DEBUG] Creating task with params:', JSON.stringify(params, null, 2));
         result = await sadminClient.createTask(params);
+        console.error('[INDEX DEBUG] Task creation result:', JSON.stringify(result, null, 2));
         break;
 
       case 'sadmin_updateTaskStatus':
@@ -65,7 +67,9 @@ app.post('/functions/:functionName', async (req, res) => {
         break;
 
       case 'sadmin_createEpic':
+        console.error('[INDEX DEBUG] Creating epic with params:', JSON.stringify(params, null, 2));
         result = await sadminClient.createEpic(params);
+        console.error('[INDEX DEBUG] Epic creation result:', JSON.stringify(result, null, 2));
         break;
 
       // Comments

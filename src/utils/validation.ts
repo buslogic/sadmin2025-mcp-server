@@ -26,6 +26,7 @@ export const CreateEpicSchema = z.object({
   epicStartDate: z.string().datetime().optional(),
   epicEndDate: z.string().datetime().optional(),
   epicHealth: EpicHealthEnum.optional(),
+  linkedTaskIds: z.array(z.string().uuid()).optional(), // Array of task IDs to link with this epic
 });
 
 export const UpdateTaskStatusSchema = z.object({
