@@ -16,6 +16,8 @@ export const CreateTaskSchema = z.object({
   assignedTo: z.number().optional(),
   dueDate: z.string().datetime().optional(),
   parentId: z.string().uuid().optional(),
+  dependsOn: z.array(z.string().uuid()).optional(),
+  blockedBy: z.array(z.string().uuid()).optional(),
 });
 
 export const CreateEpicSchema = z.object({

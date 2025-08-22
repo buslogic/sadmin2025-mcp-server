@@ -99,6 +99,16 @@ const AVAILABLE_TOOLS = [
         },
         assignedTo: { type: 'number', description: 'User ID to assign to' },
         parentId: { type: 'string', description: 'Parent task/epic ID' },
+        dependsOn: { 
+          type: 'array', 
+          items: { type: 'string' },
+          description: 'Array of task IDs this task depends on' 
+        },
+        blockedBy: { 
+          type: 'array', 
+          items: { type: 'string' },
+          description: 'Array of task IDs blocking this task' 
+        },
       },
       required: ['projectId', 'title', 'type'],
     },
@@ -260,6 +270,16 @@ const AVAILABLE_TOOLS = [
         estimatedHours: { type: 'number', description: 'Estimated hours' },
         storyPoints: { type: 'number', description: 'Story points' },
         dueDate: { type: 'string', description: 'Due date (ISO string)' },
+        dependsOn: { 
+          type: 'array', 
+          items: { type: 'string' },
+          description: 'Array of task IDs this task depends on' 
+        },
+        blockedBy: { 
+          type: 'array', 
+          items: { type: 'string' },
+          description: 'Array of task IDs blocking this task' 
+        },
       },
       required: ['id'],
     },
@@ -467,8 +487,8 @@ async function main() {
       // Pozovi naš REST API server
       const response = await api.post(`/functions/${name}`, args || {});
       
-      // Proveri da li postoji data property
-      const resultData = response.data?.data || response.data || {};
+      // REST server već vraća unwrap-ovani rezultat u data property
+      const resultData = response.data?.data || {};
       
       return {
         content: [

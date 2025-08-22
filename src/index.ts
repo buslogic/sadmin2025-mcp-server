@@ -52,6 +52,21 @@ app.post('/functions/:functionName', async (req, res) => {
         break;
 
       case 'sadmin_createTask':
+        // Handle dependsOn and blockedBy arrays if sent as JSON strings
+        if (params.dependsOn && typeof params.dependsOn === 'string') {
+          try {
+            params.dependsOn = JSON.parse(params.dependsOn);
+          } catch (e) {
+            // Keep as is if parsing fails
+          }
+        }
+        if (params.blockedBy && typeof params.blockedBy === 'string') {
+          try {
+            params.blockedBy = JSON.parse(params.blockedBy);
+          } catch (e) {
+            // Keep as is if parsing fails
+          }
+        }
         result = await sadminClient.createTask(params);
         break;
 
@@ -102,6 +117,21 @@ app.post('/functions/:functionName', async (req, res) => {
       // Update functions
       case 'sadmin_updateTask':
         const { id: taskId, ...taskUpdateData } = params;
+        // Handle dependsOn and blockedBy arrays if sent as JSON strings
+        if (taskUpdateData.dependsOn && typeof taskUpdateData.dependsOn === 'string') {
+          try {
+            taskUpdateData.dependsOn = JSON.parse(taskUpdateData.dependsOn);
+          } catch (e) {
+            // Keep as is if parsing fails
+          }
+        }
+        if (taskUpdateData.blockedBy && typeof taskUpdateData.blockedBy === 'string') {
+          try {
+            taskUpdateData.blockedBy = JSON.parse(taskUpdateData.blockedBy);
+          } catch (e) {
+            // Keep as is if parsing fails
+          }
+        }
         result = await sadminClient.updateTask(taskId, taskUpdateData);
         break;
 
